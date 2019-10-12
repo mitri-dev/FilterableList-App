@@ -38,7 +38,7 @@ function updateList() {
   list.innerHTML = '';
 
   // Update Letter List
-  for (let i = 0; i < letters.length; i++) {
+  letters.forEach((e, i) => {
     let notIncluded = 0;
     contactList.forEach(contact => {
       if (!contact.charAt(0).includes(letters[i])) {
@@ -48,40 +48,41 @@ function updateList() {
         letters.splice(i, 1);
       }
     });
-  }
+  })
   if (contactList.length === 0) {
     letters = [];
   }
 
   // Display Letters
-  for (let i = 0; i < letters.length; i++) {
+  letters.forEach((e, i) => {
     letters.sort();
     const newLetter = document.createElement('h2');
     newLetter.className = 'border-bottom pb-3';
     newLetter.textContent = letters[i];
     newLetter.id = letters[i];
     list.appendChild(newLetter);
-  }
+  })
 
   // Display Contacts
-  for (let i = 0; i < contactList.length; i++) {
+  contactList.forEach((el, i) => {
     const e = contactList.sort().reverse()[i];
-
+    
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
     deleteBtn.style.position = 'relative';
     deleteBtn.style.top = '-0.5em';
     deleteBtn.appendChild(document.createTextNode('X'));
-
+    
     const contact = document.createElement('p');
     contact.textContent = e;
     contact.className = 'border-bottom ml-4 mt-1';
     const id = contact.textContent.charAt(0);
     contact.appendChild(deleteBtn);
-
+    
     document.querySelector(`#${id}`).insertAdjacentElement('afterend', contact);
     contacts = document.querySelectorAll('p');
-  }
+  })
+  
   localStorage.setItem('list', JSON.stringify(contactList));
   localStorage.setItem('letters', JSON.stringify(letters));
 }
